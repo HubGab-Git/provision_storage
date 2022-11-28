@@ -12,10 +12,10 @@ This terraform project provision ready well architected S3 with bellow features:
 -   Enabled Object Versioning Enabled on S3
 -   Configured S3 Replication across the region
 -   Created S3 Gateway Endpoint.
--   User nebouser-efs with access for Create and modify EFS and connect to ec2 Instance
+-   User with access for Create and modify EFS and connect to ec2 Instance
 
 Files s3.tf, iam.tf are for s3 bucket
-Files ec2.tf iam-for-efs.tf and sg.tf Are for provision neboUser-efs, ec2 instance sg roups for instruction of create EFS and efs replication
+Files ec2.tf iam-for-efs.tf and sg.tf Are for provision user, ec2 instance sg roups for instruction of create EFS and efs replication
 
 ### Further manual actions
 

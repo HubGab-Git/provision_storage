@@ -1,10 +1,10 @@
 resource "aws_iam_user" "nebo_efs" {
-  name  = "neboUser-efs"
+  name = "neboUser-efs"
 }
 
 resource "aws_iam_user_policy" "nebo_user_efs" {
-  name = "nebo_user_efs"
-  user = aws_iam_user.nebo_efs.name
+  name   = "nebo_user_efs"
+  user   = aws_iam_user.nebo_efs.name
   policy = data.aws_iam_policy_document.nebo_user_efs.json
 }
 
