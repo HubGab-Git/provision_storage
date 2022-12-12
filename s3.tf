@@ -69,7 +69,7 @@ resource "aws_s3_bucket_replication_configuration" "replication" {
   depends_on = [
     aws_s3_bucket_versioning.nebo,
     aws_s3_bucket_versioning.nebo_replication
-    ]
+  ]
 
   role   = aws_iam_role.replication.arn
   bucket = aws_s3_bucket.nebo.id
@@ -89,6 +89,7 @@ resource "aws_s3_access_point" "nebo" {
   name   = "nebo"
 }
 
+# Detailed monitoring for S3
 resource "aws_s3_bucket_metric" "nebo" {
   bucket = aws_s3_bucket.nebo.bucket
   name   = "NeboS3Monitoring"
@@ -99,4 +100,13 @@ resource "aws_s3_bucket_logging" "nebo" {
 
   target_bucket = aws_s3_bucket.nebo_logs.id
   target_prefix = "log/"
+}
+
+resource "aws_s3_bucket_notification" "nebo" {
+  bucket = aws_s3_bucket.nebo.id
+
+  topic {
+    topic_arn     = aws_sns_topic.nebo.arn
+    events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+  }
 }

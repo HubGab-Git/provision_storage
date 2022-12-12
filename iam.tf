@@ -142,3 +142,74 @@ data "aws_iam_policy_document" "replication" {
     ]
   }
 }
+
+data "aws_iam_policy_document" "sns" {
+
+  statement {
+    actions = [
+      "SNS:Publish",
+    ]
+    resources = [
+      "arn:aws:sns:*:*:s3-event-notification-topic",
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["s3.amazonaws.com"]
+    }
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values   = [aws_s3_bucket.nebo.arn]
+    }
+  }
+}
+
+
+### Instance profile
+
+resource "aws_iam_instance_profile" "instance" {
+  name = "ec2_profile"
+  role = aws_iam_role.instance.name
+}
+
+resource "aws_iam_role" "instance" {
+  name               = "instance-role"
+  description        = "The role for SSM connection and CLoudwatch monitoring"
+  assume_role_policy = <<EOF
+{
+"Version": "2012-10-17",
+"Statement": {
+"Effect": "Allow",
+"Principal": {"Service": "ec2.amazonaws.com"},
+"Action": "sts:AssumeRole"
+}
+}
+EOF
+}
+resource "aws_iam_role_policy_attachment" "ssm" {
+  role       = aws_iam_role.instance.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+resource "aws_iam_role_policy_attachment" "cloudwatch" {
+  role       = aws_iam_role.instance.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+resource "aws_iam_role_policy" "ssm" {
+  name = "EC2-Inline-Policy"
+  role = aws_iam_role.instance.id
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : [
+            "ssm:GetParameter"
+          ],
+          "Resource" : "*"
+        }
+      ]
+    }
+  )
+}

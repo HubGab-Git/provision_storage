@@ -13,6 +13,11 @@ This terraform project provision ready well architected S3 with bellow features:
 -   Configured S3 Replication across the region
 -   Created S3 Gateway Endpoint.
 -   User with access for Create and modify EFS and connect to ec2 Instance
+-   Added Detailed monitoring to EC2
+-   S3 logging for Storage monitoring
+-   S3 notification set with SNS topic sending emails about requests to S3
+-   EC2 CPU Alarm
+-   Created a Application Insights Monitoring for EC2 instance
 
 Files s3.tf, iam.tf are for s3 bucket
 Files ec2.tf iam-for-efs.tf and sg.tf Are for provision user, ec2 instance sg roups for instruction of create EFS and efs replication
