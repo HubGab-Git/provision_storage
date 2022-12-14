@@ -106,7 +106,7 @@ resource "aws_s3_bucket_notification" "nebo" {
   bucket = aws_s3_bucket.nebo.id
 
   topic {
-    topic_arn     = aws_sns_topic.nebo.arn
-    events        = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
+    topic_arn = aws_sns_topic.nebo.arn
+    events    = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
   }
 }

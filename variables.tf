@@ -1,20 +1,20 @@
 variable "email" {
-  type = string
+  type        = string
   description = "Email where notifications should be sent"
 }
 variable "instance_name" {
-  type = string
+  type        = string
   description = "Name of EC2 Instance"
-  default = "NeboInstance"
+  default     = "NeboInstance"
 }
 variable "instance_type" {
-  type = string
+  type        = string
   description = "Type of EC2 Instance"
-  default = "t3.nano"
+  default     = "t3.nano"
 }
 
 variable "ami" {
-  type = string
+  type        = string
   description = "Default Amazon Linux 2 AMI"
-  default = "ami-01cae1550c0adea9c" 
+  default     = "ami-01cae1550c0adea9c"
 }

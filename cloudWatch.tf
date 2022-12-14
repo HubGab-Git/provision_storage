@@ -27,6 +27,24 @@ resource "aws_cloudwatch_metric_alarm" "s3" {
   insufficient_data_actions = []
   dimensions = {
     BucketName = aws_s3_bucket.nebo.id
-    FilterId = aws_s3_bucket_metric.nebo.name
+    FilterId   = aws_s3_bucket_metric.nebo.name
+  }
+}
+
+
+resource "aws_cloudwatch_metric_alarm" "cwagent" {
+  alarm_name                = "cwagent"
+  comparison_operator       = "GreaterThanOrEqualToThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "mem_used_percent"
+  namespace                 = "CWAgent"
+  period                    = "120" #seconds
+  statistic                 = "Average"
+  threshold                 = "50"
+  alarm_description         = "This metric monitors avalible memory on instance"
+  insufficient_data_actions = []
+  alarm_actions = [aws_sns_topic.nebo.arn]
+  dimensions = {
+    InstanceId   = aws_instance.nebo_instance.id
   }
 }
